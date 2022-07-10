@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:signintepreter/pages/launch_page.dart';
+import 'launch_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,13 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sign Interpreter',
-      theme: ThemeData(
-
-        primarySwatch: Colors.blue,
-      ),
-      home: const LaunchPage(),
+    return const MaterialApp(
+      title: 'Flutter Camera Demo',
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }
