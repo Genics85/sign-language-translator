@@ -11,9 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Flutter Camera Demo',
+      title: 'Sign language interpreter',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: LaunchPage(),
     );
   }
 }
