@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 class AppText extends StatelessWidget {
-  AppText({Key? key, required this.text}) : super(key: key);
+  AppText({Key? key, required this.text, this.color = Colors.black})
+      : super(key: key);
 
   String text;
+  Color color;
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,style: const TextStyle(
-      color: Colors.black,
-      fontSize: 16,
-    ),);
+    return Text(
+      text,
+      style: TextStyle(
+        color: color,
+        fontSize: 16,
+      ),
+    );
   }
 }
