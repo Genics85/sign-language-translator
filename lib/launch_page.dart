@@ -73,12 +73,12 @@ class _LaunchPageState extends State<LaunchPage> {
                                 icon: const Icon(Icons.video_call),
                                 color: Colors.green,
                                 onpress: () async {
-                                  // await availableCameras().then((value) => Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (_) => CameraPage(
-                                  //               cameras: value,
-                                  //             ))));
+                                  await availableCameras().then((value) => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (_) => CameraPage(
+                                                cameras: value,
+                                              ))));
                                 },
                               ),
                             ],
@@ -119,12 +119,12 @@ class _LaunchPageState extends State<LaunchPage> {
                                     icon: const Icon(Icons.video_call),
                                     color: Colors.green,
                                     onpress: () async {
-                                      // await availableCameras().then((value) => Navigator.push(
-                                      //     context,
-                                      //     MaterialPageRoute(
-                                      //         builder: (_) => CameraPage(
-                                      //               cameras: value,
-                                      //             ))));
+                                      await availableCameras().then((value) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => CameraPage(
+                                                    cameras: value,
+                                                  ))));
                                     },
                                   ),
                                 ],

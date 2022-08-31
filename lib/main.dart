@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'launch_page.dart';
 
-void main() {
+
+void main() async {
   runApp(const MyApp());
 }
 

@@ -7,22 +7,40 @@ import 'app_text.dart';
 class CameraPage extends StatefulWidget {
   CameraPage({
     Key? key,
-    required this.cameras,
-    required this.setRecognitions
-  }) : super(key: key);
+     required this.cameras
+     }) : super(key: key);
 
-  final VoidCallback setRecognitions;
   final List<CameraDescription>? cameras;
-  late CameraImage cameraImage;
-  List? recognitionList;
 
   @override
   State<CameraPage> createState() => _CameraPageState();
 }
 
 class _CameraPageState extends State<CameraPage> {
+  
+  double index = 0;
+  double confidence = 0;
+  String predOne = '';
+
+  setRecognitions(outputs) {
+    print(outputs);
+
+    if (outputs[0]['index'] == 0) {
+      index = 0;
+    } else {
+      index = 1;
+    }
+
+    confidence = outputs[0]['confidence'];
+
+    setState(() {
+      predOne = outputs[0]['label'];
+    });
+  }
+
   late CameraController _cameraController;
   bool _isRearCameraSelected = true;
+  bool isDetecting = false;
 
   // Future takePicture() async {
   //   if (!_cameraController.value.isInitialized) {
@@ -50,24 +68,78 @@ class _CameraPageState extends State<CameraPage> {
     _cameraController =
         CameraController(cameraDescription, ResolutionPreset.medium);
     try {
-      await _cameraController.initialize().then((_) {
+      await _cameraController.initialize().then((value) {
         if (!mounted) return;
-        setState(() {
-          _cameraController
-              .startImageStream((image) => {widget.cameraImage = image});
+        setState(() {});
+        _cameraController.startImageStream((image) {
+          if (!isDetecting) {
+            isDetecting = true;
+            var _outputs = Tflite.runModelOnFrame(
+              bytesList: image.planes.map((plane) {
+                return plane.bytes;
+              }).toList(),
+              imageHeight: image.height,
+              imageWidth: image.width,
+              numResults: 1,
+            ).then((value) {
+              if (value!.isNotEmpty) {
+                setRecognitions(value);
+                isDetecting = false;
+              }
+            });
+            // setState(() {
+            //   outputs = _outputs as List;
+            // });
+          }
         });
       });
-    } on CameraException catch (e) {
-      debugPrint("camera error $e");
+    } catch (error) {
+      print(error);
     }
   }
 
-  // Future loadModel() async {
-  //   Tflite.close();
-  //   String? res = await Tflite.loadModel(
-  //       model: "assets/detect.tflite", labels: "assets/labels.txt");
-  //   print(res);
+  // Future initCamera(CameraDescription cameraDescription) async {
+  //   _cameraController =
+  //       CameraController(cameraDescription, ResolutionPreset.medium);
+  //   try {
+  //     await _cameraController.initialize().then((_) {
+  //       if (!mounted) return;
+  //       setState(() {});
+
+  //       _cameraController.startImageStream((image) => {
+  //         if(!isDetecting){
+
+  //         }
+  //               // if (!isDetecting){
+
+  //               //     isDetecting=true;
+  //               //   var? _outputs=Tflite.runModelOnFrame(
+  //               //       bytesList: image.planes.map((plane) {
+  //               //         return plane.bytes;
+  //               //       }).toList(),
+  //               //       imageHeight: image.height,
+  //               //       imageWidth: image.width,
+  //               //       numResults: 1,
+  //               //     ).then((value) {
+  //               //       if (value!.isNotEmpty) {
+  //               //         setRecognitions(value);
+  //               //         isDetecting = false;
+  //               //       }
+  //               //     }),
+  //               //   }
+  //             });
+
+  //     });
+  //   } on CameraException catch (e) {
+  //     debugPrint("camera error $e");
+  //   }
   // }
+
+  loadTfliteModel() async {
+    String? res = await Tflite.loadModel(
+        model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
+    print(res);
+  }
 
   // runModel() async {
   //   widget.recognitionList = await Tflite.detectObjectOnFrame(
@@ -96,6 +168,7 @@ class _CameraPageState extends State<CameraPage> {
   @override
   void initState() {
     super.initState();
+    loadTfliteModel();
     initCamera(widget.cameras![0]);
     // loadModel();
   }
@@ -123,7 +196,7 @@ class _CameraPageState extends State<CameraPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      AppText(text: "This is where the interpretation goes"),
+                      AppText(text:confidence.toString()),
                       IconButton(
                         padding: EdgeInsets.zero,
                         iconSize: 30,
