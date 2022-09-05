@@ -38,6 +38,7 @@ dependencies:
   path_provider: ^2.0.11
   tflite: ^1.1.2
   image_picker: ^0.8.5+3
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:

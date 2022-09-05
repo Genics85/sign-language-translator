@@ -53,7 +53,7 @@ class _LaunchPageState extends State<LaunchPage> {
             )
           : SafeArea(
               child: Container(
-                  // ElevatedButton(
+                  
                   child: _image == null
                       ? Center(
                           child: Column(
@@ -61,16 +61,20 @@ class _LaunchPageState extends State<LaunchPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Button(
-                                icon: const Icon(
-                                  Icons.camera,
-                                ),
+                                icon: const Icon(Icons.book),
+                                onpress:(){}
+                              ),
+                              Row(
+                                children:[
+                                  Button(
+                                icon: const Icon(Icons.image),
                                 onpress: () {
                                   pickImage();
                                 },
                               ),
                               const SizedBox(height: 20),
                               Button(
-                                icon: const Icon(Icons.video_call),
+                                icon: const Icon(Icons.video_camera_front),
                                 color: Colors.green,
                                 onpress: () async {
                                   await availableCameras().then((value) => Navigator.push(
@@ -80,6 +84,8 @@ class _LaunchPageState extends State<LaunchPage> {
                                                 cameras: value,
                                               ))));
                                 },
+                              ),
+                                ]
                               ),
                             ],
                           ),
@@ -92,7 +98,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                 height: 500,
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 decoration: BoxDecoration(
-                                    // image:DecorationImage(image: AssetImage(_image!.path)),
+                                    
                                     borderRadius: BorderRadius.circular(20)),
                                 child: _image != null
                                     ? Image.file(File(_image!.path))
@@ -106,8 +112,12 @@ class _LaunchPageState extends State<LaunchPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Button(
+                                     icon: const Icon(Icons.book),
+                                     onpress:(){}
+                                  ),
+                                  Button(
                                     icon: const Icon(
-                                      Icons.camera,
+                                      Icons.image
                                     ),
                                     onpress: () {
                                       pickImage();
@@ -116,7 +126,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                   ),
                                   const SizedBox(width: 20),
                                   Button(
-                                    icon: const Icon(Icons.video_call),
+                                    icon: const Icon(Icons.video_camera_front),
                                     color: Colors.green,
                                     onpress: () async {
                                       await availableCameras().then((value) => Navigator.push(

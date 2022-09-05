@@ -42,28 +42,6 @@ class _CameraPageState extends State<CameraPage> {
   bool _isRearCameraSelected = true;
   bool isDetecting = false;
 
-  // Future takePicture() async {
-  //   if (!_cameraController.value.isInitialized) {
-  //     return null;
-  //   }
-  //   if (_cameraController.value.isTakingPicture) {
-  //     return null;
-  //   }
-  //   try {
-  //     await _cameraController.setFlashMode(FlashMode.off);
-  //     XFile picture = await _cameraController.takePicture();
-  //     // Navigator.push(
-  //     //     context,
-  //     //     MaterialPageRoute(
-  //     //         builder: (context) => PreviewPage(
-  //     //           picture: picture,
-  //     //         )));
-  //   } on CameraException catch (e) {
-  //     debugPrint('Error occured while taking picture: $e');
-  //     return null;
-  //   }
-  // }
-
   Future initCamera(CameraDescription cameraDescription) async {
     _cameraController =
         CameraController(cameraDescription, ResolutionPreset.medium);
@@ -87,9 +65,6 @@ class _CameraPageState extends State<CameraPage> {
                 isDetecting = false;
               }
             });
-            // setState(() {
-            //   outputs = _outputs as List;
-            // });
           }
         });
       });
@@ -98,65 +73,12 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
-  // Future initCamera(CameraDescription cameraDescription) async {
-  //   _cameraController =
-  //       CameraController(cameraDescription, ResolutionPreset.medium);
-  //   try {
-  //     await _cameraController.initialize().then((_) {
-  //       if (!mounted) return;
-  //       setState(() {});
-
-  //       _cameraController.startImageStream((image) => {
-  //         if(!isDetecting){
-
-  //         }
-  //               // if (!isDetecting){
-
-  //               //     isDetecting=true;
-  //               //   var? _outputs=Tflite.runModelOnFrame(
-  //               //       bytesList: image.planes.map((plane) {
-  //               //         return plane.bytes;
-  //               //       }).toList(),
-  //               //       imageHeight: image.height,
-  //               //       imageWidth: image.width,
-  //               //       numResults: 1,
-  //               //     ).then((value) {
-  //               //       if (value!.isNotEmpty) {
-  //               //         setRecognitions(value);
-  //               //         isDetecting = false;
-  //               //       }
-  //               //     }),
-  //               //   }
-  //             });
-
-  //     });
-  //   } on CameraException catch (e) {
-  //     debugPrint("camera error $e");
-  //   }
-  // }
-
   loadTfliteModel() async {
     String? res = await Tflite.loadModel(
         model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
     print(res);
   }
 
-  // runModel() async {
-  //   widget.recognitionList = await Tflite.detectObjectOnFrame(
-  //     bytesList: widget.cameraImage.planes.map((plane) {
-  //       return plane.bytes;
-  //     }).toList(),
-  //     imageHeight: widget.cameraImage.height,
-  //     imageWidth: widget.cameraImage.width,
-  //     imageMean: 127.5,
-  //     imageStd: 127.5,
-  //     numResultsPerClass: 1,
-  //     threshold: 0.4,
-  //   );
-  //   setState(() {
-  //     widget.cameraImage;
-  //   });
-  // }
 
   @override
   void dispose() {
@@ -212,15 +134,6 @@ class _CameraPageState extends State<CameraPage> {
                               widget.cameras![_isRearCameraSelected ? 0 : 1]);
                         },
                       ),
-
-                      // Expanded(
-                      //     child: IconButton(
-                      //       onPressed: takePicture,
-                      //       iconSize: 50,
-                      //       padding: EdgeInsets.zero,
-                      //       constraints: const BoxConstraints(),
-                      //       icon: const Icon(Icons.circle, color: Colors.white),
-                      //     )),
                     ]),
               ),
             )),
