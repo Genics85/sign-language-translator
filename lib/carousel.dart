@@ -40,6 +40,7 @@ class _CarouselsState extends State<Carousels> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 40),
       child: Column(
         children: [
           CarouselSlider.builder(
@@ -69,11 +70,14 @@ class _CarouselsState extends State<Carousels> {
   Widget buildImage(String imageUrl, int index, String label) {
     return Container(
       child: Container(
+        alignment: Alignment.bottomCenter,
+        width: 350,
         margin: EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             image: DecorationImage(
                 image: AssetImage(imageUrl), fit: BoxFit.cover)),
+        child: AppText(text:numbers[index],color:Colors.white,size:35),
       ),
     );
   }

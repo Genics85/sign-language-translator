@@ -1,15 +1,24 @@
 import "package:flutter/material.dart";
+import 'package:signintepreter/app_text.dart';
 
 class Button extends StatelessWidget {
   Button(
       {Key? key,
+      this.text = '',
       required this.onpress,
       required this.image,
-      this.width=150,
-      this.height=100,
+      this.imageHeight = 80,
+      this.imageWidth = 70,
+      this.label ="nothing",
+      this.width = 150,
+      this.height = 100,
       this.color = Colors.orange})
       : super(key: key);
+  String label;
+  double imageWidth;
+  double imageHeight;
   String image;
+  String text;
   VoidCallback onpress;
   Color color;
   double width;
@@ -26,11 +35,18 @@ class Button extends StatelessWidget {
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all<Color>(color),
         ),
-        child: Container(
-            width: 70,
-            height: 80,
-            decoration: BoxDecoration(
-                image: DecorationImage(image: AssetImage(image)))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+                width: imageWidth,
+                height: imageHeight,
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage(image)))),
+            SizedBox(height: 3),
+            AppText(text:label, size: 10, color: Colors.white)
+          ],
+        ),
       ),
     );
   }

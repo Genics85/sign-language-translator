@@ -3,6 +3,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:signintepreter/buttons.dart';
+import 'app_text.dart';
 import 'camera_page.dart';
 import 'package:tflite/tflite.dart';
 
@@ -62,6 +63,7 @@ class _LaunchPageState extends State<LaunchPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Button(
+                                label: "Learn",
                                 onpress: () {
                                    Navigator.push(
                                           context,
@@ -76,6 +78,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Button(
+                                      label: "From gallery",
                                       image: "images/gallery.png",
                                       onpress: () {
                                         pickImage();
@@ -83,8 +86,8 @@ class _LaunchPageState extends State<LaunchPage> {
                                     ),
                                     const SizedBox(width: 20),
                                     Button(
+                                      label: "Live translation",
                                       image: "images/video.png",
-                                      color: Colors.green,
                                       onpress: () async {
                                         await availableCameras()
                                             .then((value) => Navigator.push(
@@ -112,7 +115,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                     ? Image.file(File(_image!.path))
                                     : Container()),
                             _outputs != null
-                                ? Text("${_outputs[0]["label"]}")
+                                ? AppText(text:"${_outputs[0]["label"]}",size: 60,)
                                 : Container(),
                             Container(
                               margin: EdgeInsets.only(bottom: 40,left: 15,right:15 ),
@@ -120,6 +123,9 @@ class _LaunchPageState extends State<LaunchPage> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Button(
+                                    label: 'Learn',
+                                    imageHeight: 50,
+                                    imageWidth:50,
                                     width: 100,
                                     height:75,
                                     onpress: () {
@@ -133,6 +139,9 @@ class _LaunchPageState extends State<LaunchPage> {
                                   ),
                                   const SizedBox(width: 10,),
                                   Button(
+                                    label:"From gallery",
+                                    imageHeight: 50,
+                                    imageWidth:50,
                                     width: 100,
                                     height:75,
                                     image: "images/gallery.png",
@@ -143,10 +152,12 @@ class _LaunchPageState extends State<LaunchPage> {
                                   ),
                                   const SizedBox(width: 10),
                                   Button(
+                                    label: "Live ",
+                                    imageHeight: 50,
+                                    imageWidth:50,
                                     width: 100,
                                     height:75,
                                     image: "images/video.png",
-                                    color: Colors.green,
                                     onpress: () async {
                                       await availableCameras()
                                           .then((value) => Navigator.push(

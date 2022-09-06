@@ -21,6 +21,7 @@ class _LearningState extends State<Learning> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Button(
+                  label: "Numbers",
                     onpress: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (Context) => Alphabet()));
@@ -29,7 +30,7 @@ class _LearningState extends State<Learning> {
                 const SizedBox(
                   height: 20,
                 ),
-                Button(onpress: () {}, image: "images/alphabet.png")
+                Button(label: "Alphabets",onpress: () {}, image: "images/alphabet.png")
               ],
             ),
           ),
