@@ -6,6 +6,8 @@ import 'package:signintepreter/buttons.dart';
 import 'camera_page.dart';
 import 'package:tflite/tflite.dart';
 
+import 'learning_page.dart';
+
 class LaunchPage extends StatefulWidget {
   const LaunchPage({Key? key}) : super(key: key);
 
@@ -53,7 +55,6 @@ class _LaunchPageState extends State<LaunchPage> {
             )
           : SafeArea(
               child: Container(
-                  
                   child: _image == null
                       ? Center(
                           child: Column(
@@ -61,32 +62,40 @@ class _LaunchPageState extends State<LaunchPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Button(
-                                icon: const Icon(Icons.book),
-                                onpress:(){}
-                              ),
-                              Row(
-                                children:[
-                                  Button(
-                                icon: const Icon(Icons.image),
                                 onpress: () {
-                                  pickImage();
+                                   Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Learning()));
                                 },
+                                image: "images/learn.png",
                               ),
-                              const SizedBox(height: 20),
-                              Button(
-                                icon: const Icon(Icons.video_camera_front),
-                                color: Colors.green,
-                                onpress: () async {
-                                  await availableCameras().then((value) => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (_) => CameraPage(
-                                                cameras: value,
-                                              ))));
-                                },
-                              ),
-                                ]
-                              ),
+                              SizedBox(height: 20),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Button(
+                                      image: "images/gallery.png",
+                                      onpress: () {
+                                        pickImage();
+                                      },
+                                    ),
+                                    const SizedBox(width: 20),
+                                    Button(
+                                      image: "images/video.png",
+                                      color: Colors.green,
+                                      onpress: () async {
+                                        await availableCameras()
+                                            .then((value) => Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (_) => CameraPage(
+                                                          cameras: value,
+                                                        ))));
+                                      },
+                                    ),
+                                  ]),
                             ],
                           ),
                         )
@@ -98,7 +107,6 @@ class _LaunchPageState extends State<LaunchPage> {
                                 height: 500,
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 decoration: BoxDecoration(
-                                    
                                     borderRadius: BorderRadius.circular(20)),
                                 child: _image != null
                                     ? Image.file(File(_image!.path))
@@ -107,34 +115,46 @@ class _LaunchPageState extends State<LaunchPage> {
                                 ? Text("${_outputs[0]["label"]}")
                                 : Container(),
                             Container(
-                              margin: EdgeInsets.only(bottom: 40),
+                              margin: EdgeInsets.only(bottom: 40,left: 15,right:15 ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Button(
-                                     icon: const Icon(Icons.book),
-                                     onpress:(){}
+                                    width: 100,
+                                    height:75,
+                                    onpress: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Learning()));
+                                    },
+                                    image: "images/learn.png",
                                   ),
+                                  const SizedBox(width: 10,),
                                   Button(
-                                    icon: const Icon(
-                                      Icons.image
-                                    ),
+                                    width: 100,
+                                    height:75,
+                                    image: "images/gallery.png",
                                     onpress: () {
                                       pickImage();
                                       debugPrint("${_outputs[0]["label"]}");
                                     },
                                   ),
-                                  const SizedBox(width: 20),
+                                  const SizedBox(width: 10),
                                   Button(
-                                    icon: const Icon(Icons.video_camera_front),
+                                    width: 100,
+                                    height:75,
+                                    image: "images/video.png",
                                     color: Colors.green,
                                     onpress: () async {
-                                      await availableCameras().then((value) => Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => CameraPage(
-                                                    cameras: value,
-                                                  ))));
+                                      await availableCameras()
+                                          .then((value) => Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (_) => CameraPage(
+                                                        cameras: value,
+                                                      ))));
                                     },
                                   ),
                                 ],
