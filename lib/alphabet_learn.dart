@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 import 'package:signintepreter/app_text.dart';
 import 'package:signintepreter/carousel.dart';
+import 'package:signintepreter/learning_provider.dart';
 
 class Alphabet extends StatefulWidget {
   Alphabet({Key? key}) : super(key: key);
@@ -14,11 +16,12 @@ class _AlphabetState extends State<Alphabet> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Consumer<LearnProvider>(builder: (context,learn,child){
+      return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           title: AppText(
-            text: "Learn Alphabets",
+            text:learn.selected?"Numbers":"Alphabets",
             color: Colors.white,
           ),
           backgroundColor: Colors.orange,
@@ -31,5 +34,8 @@ class _AlphabetState extends State<Alphabet> {
         ),
       ),
     );
+    });
+    
+     
   }
 }

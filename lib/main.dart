@@ -1,10 +1,18 @@
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:signintepreter/learning_provider.dart';
 import 'launch_page.dart';
 
 
 void main() async {
-  runApp(const MyApp());
+  return runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider<LearnProvider>(create: (context)=>LearnProvider())
+    ],
+    child: MyApp(),)
+    //  MyApp()
+    );
 }
 
 class MyApp extends StatelessWidget {
