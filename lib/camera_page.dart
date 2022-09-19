@@ -7,9 +7,11 @@ import 'app_text.dart';
 class CameraPage extends StatefulWidget {
   CameraPage({
     Key? key,
-     required this.cameras
-     }) : super(key: key);
+    required this.cameras,
+    required this.model,
+  }) : super(key: key);
 
+  String model;
   final List<CameraDescription>? cameras;
 
   @override
@@ -17,7 +19,6 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  
   double index = 0;
   double confidence = 0;
   String predOne = '';
@@ -75,10 +76,9 @@ class _CameraPageState extends State<CameraPage> {
 
   loadTfliteModel() async {
     String? res = await Tflite.loadModel(
-        model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
+        model: widget.model, labels: "assets/labels.txt");
     print(res);
   }
-
 
   @override
   void dispose() {
@@ -118,7 +118,7 @@ class _CameraPageState extends State<CameraPage> {
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      AppText(text:confidence.toString()),
+                      AppText(text: confidence.toString()),
                       IconButton(
                         padding: EdgeInsets.zero,
                         iconSize: 30,

@@ -2,7 +2,10 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:signintepreter/alphabet_learn.dart';
 import 'package:signintepreter/buttons.dart';
+import 'package:signintepreter/model_provider.dart';
 import 'app_text.dart';
 import 'camera_page.dart';
 import 'package:tflite/tflite.dart';
@@ -10,7 +13,10 @@ import 'package:tflite/tflite.dart';
 import 'learning_page.dart';
 
 class LaunchPage extends StatefulWidget {
-  const LaunchPage({Key? key}) : super(key: key);
+  String model;
+  LaunchPage({
+    Key? key,required this.model,
+  }) : super(key: key);
 
   @override
   State<LaunchPage> createState() => _LaunchPageState();
@@ -48,7 +54,9 @@ class _LaunchPageState extends State<LaunchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<ModelProvider>(
+      builder: (context,model,child){
+        return Scaffold(
       body: _loading
           ? Container(
               alignment: Alignment.center,
@@ -65,11 +73,10 @@ class _LaunchPageState extends State<LaunchPage> {
                               Button(
                                 label: "Learn",
                                 onpress: () {
-                                   Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Learning()));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Alphabet()));
                                 },
                                 image: "images/learn.png",
                               ),
@@ -81,7 +88,8 @@ class _LaunchPageState extends State<LaunchPage> {
                                       label: "From gallery",
                                       image: "images/gallery.png",
                                       onpress: () {
-                                        pickImage();
+                                        // pickImage();
+                                        _showDialog();
                                       },
                                     ),
                                     const SizedBox(width: 20),
@@ -95,6 +103,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                                 MaterialPageRoute(
                                                     builder: (_) => CameraPage(
                                                           cameras: value,
+                                                          model: model.model,
                                                         ))));
                                       },
                                     ),
@@ -115,35 +124,41 @@ class _LaunchPageState extends State<LaunchPage> {
                                     ? Image.file(File(_image!.path))
                                     : Container()),
                             _outputs != null
-                                ? AppText(text:"${_outputs[0]["label"]}",size: 60,)
+                                ? AppText(
+                                    text: "${_outputs[0]["label"]}",
+                                    size: 60,
+                                  )
                                 : Container(),
                             Container(
-                              margin: EdgeInsets.only(bottom: 40,left: 15,right:15 ),
+                              margin: EdgeInsets.only(
+                                  bottom: 40, left: 15, right: 15),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Button(
                                     label: 'Learn',
                                     imageHeight: 50,
-                                    imageWidth:50,
+                                    imageWidth: 50,
                                     width: 100,
-                                    height:75,
+                                    height: 75,
                                     onpress: () {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Learning()));
+                                                  Alphabet()));
                                     },
                                     image: "images/learn.png",
                                   ),
-                                  const SizedBox(width: 10,),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
                                   Button(
-                                    label:"From gallery",
+                                    label: "From gallery",
                                     imageHeight: 50,
-                                    imageWidth:50,
+                                    imageWidth: 50,
                                     width: 100,
-                                    height:75,
+                                    height: 75,
                                     image: "images/gallery.png",
                                     onpress: () {
                                       pickImage();
@@ -154,9 +169,9 @@ class _LaunchPageState extends State<LaunchPage> {
                                   Button(
                                     label: "Live ",
                                     imageHeight: 50,
-                                    imageWidth:50,
+                                    imageWidth: 50,
                                     width: 100,
-                                    height:75,
+                                    height: 75,
                                     image: "images/video.png",
                                     onpress: () async {
                                       await availableCameras()
@@ -165,6 +180,7 @@ class _LaunchPageState extends State<LaunchPage> {
                                               MaterialPageRoute(
                                                   builder: (_) => CameraPage(
                                                         cameras: value,
+                                                        model: model.model,
                                                       ))));
                                     },
                                   ),
@@ -175,11 +191,16 @@ class _LaunchPageState extends State<LaunchPage> {
                         )),
             ),
     );
+      },
+    );
+    
+    
+    
   }
 
   loadModel() async {
     await Tflite.loadModel(
-        model: "assets/model_unquant.tflite", labels: "assets/labels.txt");
+        model: widget.model, labels: "assets/labels.txt");
   }
 
   classifyImage(XFile image) async {
@@ -193,6 +214,44 @@ class _LaunchPageState extends State<LaunchPage> {
       _loading = false;
       _outputs = output!;
     });
+  }
+
+  Future _showDialog() async {
+    try {
+      return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: AppText(text: "Select Category"),
+              content:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                TextButton(
+                  onPressed: () {},
+                  child: AppText(text: "Numbers"),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: AppText(text: "Alphabets"),
+                )
+              ]),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: AppText(
+                      text: "cancel",
+                      color: Colors.grey,
+                    ))
+              ],
+            );
+          });
+    } catch (e) {
+      debugPrint("dialog error");
+    }
   }
 
   @override

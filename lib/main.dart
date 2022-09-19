@@ -1,13 +1,17 @@
 
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:signintepreter/learning_page.dart';
 import 'package:signintepreter/learning_provider.dart';
+import 'package:signintepreter/model_provider.dart';
 import 'launch_page.dart';
 
 
 void main() async {
   return runApp(
     MultiProvider(providers: [
+      ChangeNotifierProvider<ModelProvider>(create:(context)=>ModelProvider()),
       ChangeNotifierProvider<LearnProvider>(create: (context)=>LearnProvider())
     ],
     child: MyApp(),)
@@ -20,10 +24,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Sign language interpreter',
+    return  MaterialApp(
+      title: 'Signer',
       debugShowCheckedModeBanner: false,
-      home: LaunchPage(),
+      home: AnimatedSplashScreen(
+        duration: 2000,
+        nextScreen:Learning(),
+        splash: "images/logo.png",
+        splashTransition: SplashTransition.fadeTransition,
+      )
+      ,
     );
   }
 }
