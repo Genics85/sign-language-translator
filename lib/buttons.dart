@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:signintepreter/app_text.dart';
+import 'package:Signer/app_text.dart';
 
 class Button extends StatelessWidget {
   Button(

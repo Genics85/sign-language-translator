@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:signintepreter/app_text.dart';
-import 'package:signintepreter/learning_provider.dart';
+import 'package:Signer/app_text.dart';
+import 'package:Signer/learning_provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Carousels extends StatefulWidget {

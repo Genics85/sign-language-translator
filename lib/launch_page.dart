@@ -3,9 +3,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:signintepreter/alphabet_learn.dart';
-import 'package:signintepreter/buttons.dart';
-import 'package:signintepreter/model_provider.dart';
+import 'package:Signer/alphabet_learn.dart';
+import 'package:Signer/bold_text.dart';
+import 'package:Signer/buttons.dart';
+import 'package:Signer/learning_provider.dart';
+import 'package:Signer/model_provider.dart';
 import 'app_text.dart';
 import 'camera_page.dart';
 import 'package:tflite/tflite.dart';
@@ -54,8 +56,8 @@ class _LaunchPageState extends State<LaunchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ModelProvider>(
-      builder: (context,model,child){
+    return Consumer2<ModelProvider,LearnProvider>(
+      builder: (context,model,learn,child){
         return Scaffold(
       body: _loading
           ? Container(
@@ -67,9 +69,12 @@ class _LaunchPageState extends State<LaunchPage> {
                   child: _image == null
                       ? Center(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
+                              SizedBox(height: 20,),
+                              BoldText(text: learn.name),
+                              SizedBox(height: MediaQuery.of(context).size.height/3.5,),
                               Button(
                                 label: "Learn",
                                 onpress: () {

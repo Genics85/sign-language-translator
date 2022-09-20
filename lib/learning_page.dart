@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:signintepreter/alphabet_learn.dart';
-import 'package:signintepreter/buttons.dart';
-import 'package:signintepreter/launch_page.dart';
-import 'package:signintepreter/learning_provider.dart';
-import 'package:signintepreter/model_provider.dart';
+import 'package:Signer/alphabet_learn.dart';
+import 'package:Signer/buttons.dart';
+import 'package:Signer/launch_page.dart';
+import 'package:Signer/learning_provider.dart';
+import 'package:Signer/model_provider.dart';
 
 class Learning extends StatefulWidget {
   Learning({Key? key}) : super(key: key);
@@ -24,8 +24,15 @@ class _LearningState extends State<Learning> {
             child: Container(
               alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                
                 children: [
+                  SizedBox(height: 30,),
+                  Text("What to Learn ?",style:TextStyle(
+                    color: Colors.orange,
+                    fontSize:34,
+                    fontWeight: FontWeight.w600
+                  )),
+                  SizedBox(height:MediaQuery.of(context).size.height/3.5 ,),
                   Button(
                       label: "Numbers",
                       onpress: () {
